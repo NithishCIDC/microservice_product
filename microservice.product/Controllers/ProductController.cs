@@ -36,6 +36,13 @@ namespace microservice.product.API.Controllers
                 return Ok(entity);
         }
 
+        [HttpGet("WithCustomer/{id}")]
+        public async Task<IActionResult> GetProductByCID(int id)
+        {
+            var entity = await unitOfWork.Product.GetProductByCID(id);
+            return Ok(entity);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddProduct([FromBody] ProductDTO entity)
         {
@@ -60,6 +67,14 @@ namespace microservice.product.API.Controllers
            await unitOfWork.Product.Delete(id);
            await unitOfWork.Save();
            return Ok();
-        }   
+        }
+        [HttpDelete("WithCustomer/{id}")]
+
+        public async Task<IActionResult> DeleteProductwithCustomer(int id)
+        {
+            await unitOfWork.Product.DeleteProductWithCustomer(id);
+            await unitOfWork.Save();
+            return Ok();
+        }
     }
 }
