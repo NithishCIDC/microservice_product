@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace microservice.product.Infrastructure.Repository
 {
-    public class ProductRepository(ProductDbContext dbcontext) : GenericRepositoy<ProductModel>(dbcontext) , IProductRepository
+    public class ProductRepository(ProductDbContext dbcontext) : GenericRepositoy<ProductModel>(dbcontext), IProductRepository
     {
         public async Task<List<ProductModel>> GetProductByCID(int id)
         {
@@ -15,10 +15,11 @@ namespace microservice.product.Infrastructure.Repository
 
         public async Task DeleteProductWithCustomer(int id)
         {
-           var Product = await dbcontext.Product.Where(product => product.CustomerId == id).ToListAsync();
-           dbcontext.RemoveRange(Product);
+            var Product = await dbcontext.Product.Where(product => product.CustomerId == id).ToListAsync();
+            dbcontext.RemoveRange(Product);
+            await dbcontext.SaveChangesAsync();
         }
 
     }
-    
+
 }
